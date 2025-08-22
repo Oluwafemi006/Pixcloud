@@ -1,0 +1,83 @@
+{% extends 'gallery/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-folder me-2"></i>Catégories</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="{% url 'gallery-home' %}" class="list-group-item list-group-item-action {% if not category %}active{% endif %}">
+                        <i class="fas fa-images me-2"></i>Toutes les images
+                    </a>
+                    {% for cat in categories %}
+                    <a href="{% url 'category-images' cat.id %}" class="list-group-item list-group-item-action {% if cat.id == category.id %}active{% endif %}">
+                        <i class="fas fa-folder me-2"></i>{{ cat.name }}
+                        <span class="badge bg-primary rounded-pill float-end">{{ cat.imagegallery_set.count }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-folder-open me-2 text-warning"></i>
+                {{ category.name }}
+                <span class="badge bg-secondary ms-2">{{ images.count }} image(s)</span>
+            </h2>
+            <a href="{% url 'upload' %}" class="btn btn-primary">
+                <i class="fas fa-upload me-2"></i>Téléverser
+            </a>
+        </div>
+        
+        {% if images %}
+        <div class="row">
+            {% for image in images %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ image.image.url }}" class="card-img-top gallery-img" alt="{{ image.title }}"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ image.title|truncatechars:20 }}</h6>
+                        <p class="card-text small text-muted">
+                            <i class="fas fa-calendar me-1"></i>
+                            {{ image.created_at|date:"d M Y" }}
+                        </p>
+                        {% if image.description %}
+                        <p class="card-text small">{{ image.description|truncatechars:50 }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'image-detail' image.id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye me-1"></i>Voir
+                            </a>
+                            <a href="{% url 'image-delete' image.id %}" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash me-1"></i>Supprimer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-folder-open fa-5x text-muted mb-3"></i>
+                <h4 class="text-muted">Aucune image dans cette catégorie</h4>
+                <p class="text-muted">Commencez par téléverser des images dans cette catégorie</p>
+            </div>
+            <a href="{% url 'upload' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-upload me-2"></i>Téléverser une image
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

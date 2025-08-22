@@ -1,0 +1,9 @@
+asgiref==3.8.1
+Django==5.1
+django-allauth==65.11.0
+django-crispy-forms==2.4
+django-otp==1.6.1
+djangorestframework==3.16.0
+pillow==11.3.0
+qrcode==8.2
+sqlparse==0.5.3
