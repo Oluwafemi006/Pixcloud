@@ -11,7 +11,7 @@ SECRET_KEY = 'votre-cle-secrete-django-ici-remplacez-par-une-vraie-cle-secrete'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ton_username.pythonanywhere.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
